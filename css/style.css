@@ -1,0 +1,784 @@
+/* =========================================================
+   DESIGN TOKENS
+   Edit these values to reskin the entire site.
+   ========================================================= */
+:root {
+  /* -- Color -- */
+  --ink: #17161b;          /* near-black text / dark surfaces */
+  --ink-soft: #2a2924;     /* softened ink for large dark blocks */
+  --paper: #eeeae0;        /* warm paper background */
+  --paper-raised: #f6f3ec; /* lighter card surface on paper */
+  --accent: #b13f29;       /* safelight red — the one signature color */
+  --accent-ink: #f6f3ec;   /* text placed on top of accent */
+  --line: #d8d2c3;         /* hairline borders on paper */
+  --line-dark: #3c3b36;    /* hairline borders on ink */
+  --muted: #726d5f;        /* secondary text on paper */
+  --muted-dark: #b7b2a2;   /* secondary text on ink */
+
+  /* -- Type -- */
+  --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --font-body: "Inter", -apple-system, "Segoe UI", sans-serif;
+
+  /* -- Scale -- */
+  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --step-1: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --step-2: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
+  --step-3: clamp(2.5rem, 2rem + 2vw, 3.75rem);
+  --step-4: clamp(3.5rem, 2.5rem + 4vw, 6.5rem);
+
+  --gutter: clamp(1.25rem, 1rem + 2vw, 3rem);
+  --max-width: 1400px;
+}
+
+/* =========================================================
+   RESET
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body, h1, h2, h3, p, figure { margin: 0; }
+ul { list-style: none; margin: 0; padding: 0; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+input, textarea { font: inherit; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.wrap {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+/* =========================================================
+   NAV
+   ========================================================= */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(238, 234, 224, 0.86);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 1.1rem;
+}
+
+.nav-mark {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-style: italic;
+}
+
+.nav-links {
+  display: flex;
+  gap: clamp(1.25rem, 2vw, 2.5rem);
+}
+
+.nav-links a {
+  position: relative;
+  padding-bottom: 3px;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 100%;
+  bottom: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: right 0.25s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a[aria-current="page"]::after {
+  right: 0;
+}
+
+.nav-toggle { display: none; }
+
+@media (max-width: 640px) {
+  .nav-links {
+    position: fixed;
+    inset: 0 0 auto auto;
+    top: 0;
+    height: 100vh;
+    width: min(78vw, 320px);
+    background: var(--ink);
+    color: var(--paper-raised);
+    flex-direction: column;
+    padding: 5.5rem 2rem 2rem;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+  .nav-links[data-open="true"] { transform: translateX(0); }
+  .nav-toggle {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px;
+    z-index: 50;
+  }
+  .nav-toggle span {
+    width: 22px;
+    height: 2px;
+    background: var(--ink);
+  }
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero {
+  position: relative;
+  min-height: min(88vh, 780px);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  color: var(--accent-ink);
+}
+
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: heroZoom 22s ease-in-out infinite alternate;
+}
+
+@keyframes heroZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.07); }
+}
+
+.hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(23,22,27,0.15) 0%, rgba(23,22,27,0.75) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding-block: clamp(2.5rem, 6vw, 5rem);
+  width: 100%;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-name {
+  font-family: var(--font-display);
+  font-size: var(--step-4);
+  font-style: italic;
+  line-height: 0.95;
+  max-width: 18ch;
+  animation: fadeUp 0.9s ease both;
+}
+
+.hero-tagline {
+  margin-top: 1rem;
+  max-width: 42ch;
+  font-size: var(--step-1);
+  color: var(--paper-raised);
+  animation: fadeUp 0.9s ease 0.15s both;
+}
+
+.hero-meta {
+  margin-top: 2rem;
+  display: flex;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(246,243,236,0.3);
+  padding-top: 1.25rem;
+  animation: fadeUp 0.9s ease 0.3s both;
+}
+
+.hero-meta div { min-width: 8rem; }
+
+.hero-meta dt {
+  font-size: 0.75rem;
+  color: var(--muted-dark);
+  text-transform: none;
+}
+
+.hero-meta dd {
+  margin: 0.2rem 0 0;
+  font-size: var(--step-0);
+}
+
+/* =========================================================
+   SECTION SCAFFOLD
+   ========================================================= */
+.section {
+  padding-block: clamp(3.5rem, 8vw, 7rem);
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1.5rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  flex-wrap: wrap;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-style: italic;
+}
+
+.section-link {
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 2px;
+  white-space: nowrap;
+}
+
+.section-link:hover { border-color: var(--accent); color: var(--accent); }
+
+.section--ink {
+  background: var(--ink);
+  color: var(--paper-raised);
+}
+
+.section--ink .section-link { border-color: var(--paper-raised); }
+.section--ink .eyebrow { color: var(--muted-dark); }
+
+/* =========================================================
+   PHOTO GRID (gallery page)
+   A CSS-columns masonry layout: each photo keeps its own exact
+   aspect ratio (no cropping) and packs tightly underneath the
+   one above it in its column — like a contact sheet. This is
+   plain CSS with no JavaScript involved, so there's nothing that
+   can fail to load or leave a gap: it always tiles cleanly.
+   Note: photos fill column-by-column (top to bottom, left
+   column first) rather than strictly left-to-right — that's an
+   inherent trade-off of this reliable, JS-free technique.
+   ========================================================= */
+.grid {
+  column-count: 5;
+  column-gap: clamp(0.5rem, 1vw, 0.85rem);
+}
+
+.grid-item {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper-raised);
+  break-inside: avoid;
+  margin-bottom: clamp(0.5rem, 1vw, 0.85rem);
+  display: block;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.grid-item:hover,
+.grid-item:focus-within {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px -12px rgba(23,22,27,0.4), 0 0 22px rgba(177,63,41,0.35);
+}
+
+@media (max-width: 1100px) {
+  .grid { column-count: 4; }
+}
+
+@media (max-width: 780px) {
+  .grid { column-count: 3; }
+}
+
+@media (max-width: 560px) {
+  .grid { column-count: 2; }
+}
+
+.grid-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.6s cubic-bezier(.2,.7,.2,1);
+}
+
+.grid-item:hover img { transform: scale(1.06); }
+
+.grid-item button {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: zoom-in;
+}
+
+/* =========================================================
+   FEATURED GRID (homepage "a few favorites")
+   A small, curated set — shown as a clean, evenly-balanced
+   grid with every tile cropped to the same portrait ratio,
+   rather than the freeform gallery layout above.
+   ========================================================= */
+#featured-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.5rem, 1vw, 0.85rem);
+}
+
+#featured-grid .grid-item {
+  height: auto;
+  margin-bottom: 0;
+  aspect-ratio: 4 / 5;
+}
+
+#featured-grid .grid-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  #featured-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 560px) {
+  #featured-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* =========================================================
+   FILTER BAR (gallery page)
+   ========================================================= */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.filter-btn {
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.filter-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+.filter-btn[aria-pressed="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper-raised);
+}
+
+/* =========================================================
+   LIGHTBOX
+   ========================================================= */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  background: rgba(23, 22, 27, 0.96);
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 3rem);
+}
+
+.lightbox[data-open="true"] { display: flex; }
+
+.lightbox-frame {
+  position: relative;
+  max-width: min(1200px, 92vw);
+  max-height: 88vh;
+  width: 100%;
+}
+
+.lightbox-frame img {
+  max-height: 88vh;
+  width: auto;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+.lightbox-caption {
+  margin-top: 0.75rem;
+  color: var(--muted-dark);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+  position: absolute;
+  color: var(--paper-raised);
+  padding: 0.6rem;
+}
+
+.lightbox-close { top: -3rem; right: 0; font-size: 1r5rem; }
+.lightbox-prev { left: clamp(-3rem, -6vw, -1rem); top: 50%; transform: translateY(-50%); }
+.lightbox-next { right: clamp(-3rem, -6vw, -1rem); top: 50%; transform: translateY(-50%); }
+.lightbox-prev:hover, .lightbox-next:hover, .lightbox-close:hover { color: var(--accent); }
+
+/* =========================================================
+   VIDEO GRID
+   ========================================================= */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.video-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.video-card:hover,
+.video-card:focus-within {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px -12px rgba(23,22,27,0.4), 0 0 22px rgba(177,63,41,0.35);
+}
+
+.video-card button {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3/2;
+  position: relative;
+}
+
+.video-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(.2,.7,.2,1);
+}
+
+.video-card:hover img { transform: scale(1.06); }
+
+.video-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-play span {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.video-card:hover .video-play span,
+.video-card:focus-within .video-play span {
+  transform: scale(1.12);
+  box-shadow: 0 0 18px rgba(177,63,41,0.65);
+}
+
+.video-play svg { width: 1.1rem; height: 1.1rem; fill: var(--accent-ink); margin-left: 2px; }
+
+.video-info { padding-top: 0.85rem; }
+.video-info h3 { font-size: 1.05rem; font-weight: 600; }
+.video-info p { color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem; }
+
+.video-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  background: rgba(23,22,27,0.96);
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 3rem);
+}
+
+.video-modal[data-open="true"] { display: flex; }
+
+.video-modal-frame {
+  width: min(1100px, 94vw);
+}
+
+.video-modal-frame .ratio {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--ink-soft);
+}
+
+/* Vertical/phone-shot videos get a tall, narrow player instead of
+   a widescreen box — this is what avoids black bars on the sides. */
+.video-modal-frame.is-portrait {
+  width: min(420px, 80vh, 90vw);
+}
+
+.video-modal-frame.is-portrait .ratio {
+  aspect-ratio: 9/16;
+}
+
+.video-modal-frame iframe,
+.video-modal-frame video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.video-modal-close {
+  position: absolute;
+  top: -3rem;
+  right: 0;
+  color: var(--paper-raised);
+}
+.video-modal-close:hover { color: var(--accent); }
+
+.video-modal-watch {
+  display: block;
+  margin-top: 0.85rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted-dark);
+}
+.video-modal-watch:hover { color: var(--accent); }
+.video-modal-watch[hidden] { display: none; }
+
+/* =========================================================
+   ABOUT
+   ========================================================= */
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 34%) 1fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+.about-portrait { aspect-ratio: 4/5; overflow: hidden; }
+.about-portrait img { width: 100%; height: 100%; object-fit: cover; }
+
+.about-copy p { max-width: 62ch; margin-bottom: 1.1rem; color: var(--ink); }
+.about-copy p + h3 { margin-top: 2rem; }
+
+.skill-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.6rem 1.5rem;
+  margin-top: 0.75rem;
+}
+
+.skill-list li {
+  border-top: 1px solid var(--line);
+  padding-top: 0.55rem;
+  font-size: 0.92rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.75rem;
+  padding: 0.8rem 1.5rem;
+  background: var(--ink);
+  color: var(--paper-raised);
+  border-radius: 2px;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -8px rgba(177,63,41,0.5);
+}
+
+@media (max-width: 760px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .about-portrait { max-width: 260px; }
+}
+
+/* =========================================================
+   CONTACT
+   ========================================================= */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.field label { font-size: 0.85rem; color: var(--muted-dark); }
+
+.field input,
+.field textarea {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line-dark);
+  padding: 0.6rem 0.1rem;
+  color: inherit;
+}
+
+.field input:focus,
+.field textarea:focus { border-color: var(--accent); }
+
+.field textarea { resize: vertical; min-height: 6rem; }
+
+.contact-links a {
+  display: block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--step-2);
+  padding-block: 0.6rem;
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.contact-links a:hover { color: var(--accent); }
+
+.social-row { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1.5rem; }
+.social-row a { color: var(--muted-dark); font-size: 0.9rem; width: fit-content; }
+.social-row a:hover { color: var(--paper-raised); }
+
+.submit-btn {
+  background: var(--accent);
+  color: var(--accent-ink);
+  padding: 0.85rem 1.75rem;
+  border-radius: 2px;
+  margin-top: 0.5rem;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.submit-btn:hover {
+  background: var(--paper-raised);
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+
+.form-note { font-size: 0.8rem; color: var(--muted-dark); margin-top: 0.75rem; }
+
+@media (max-width: 760px) {
+  .contact-grid { grid-template-columns: 1fr; }
+}
+
+/* honeypot field — hidden from real people, catches bots */
+.hp-field { position: absolute; left: -9999px; top: -9999px; }
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.site-footer {
+  border-top: 1px solid var(--line-dark);
+  background: var(--ink);
+  color: var(--muted-dark);
+  padding-block: 2rem;
+  font-size: 0.85rem;
+}
+
+.footer-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* =========================================================
+   PAGE HEADER (gallery / video pages)
+   ========================================================= */
+.page-header {
+  padding-block: clamp(3rem, 8vw, 5.5rem) clamp(1.5rem, 3vw, 2rem);
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--step-4);
+}
+
+.page-lede {
+  margin-top: 1rem;
+  max-width: 50ch;
+  color: var(--muted);
+  font-size: var(--step-1);
+}
+
+/* =========================================================
+   SCROLL REVEAL
+   A quiet fade-up applied by main.js (initReveal) as elements
+   enter the viewport — section headers, grid photos, the About
+   and Contact blocks. Skipped entirely for reduced-motion users.
+   ========================================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================
+   UTILITIES
+   ========================================================= */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem; top: -3rem;
+  background: var(--ink);
+  color: var(--paper-raised);
+  padding: 0.6rem 1rem;
+  z-index: 200;
+  transition: top 0.2s ease;
+}
+.skip-link:focus { top: 1rem; }

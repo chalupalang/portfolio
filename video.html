@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video — Kaylah Lang</title>
+  <meta name="description" content="Videography reel and projects." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="Primary">
+      <a class="nav-mark" href="index.html">Kaylah Lang</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" data-open="false">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html">Photography</a></li>
+        <li><a href="video.html" aria-current="page">Video</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <div class="page-header wrap">
+      <p class="eyebrow">Video</p>
+      <h1 class="page-title">Motion work</h1>
+      <p class="page-lede">Five projects — short documentary pieces and event recaps. Click any thumbnail to play.</p>
+    </div>
+
+    <section class="section" style="padding-top: 0;">
+      <div class="wrap">
+        <div class="video-grid" id="video-grid" aria-label="Videos"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <p>&copy; <span id="year"></span> Kaylah Lang. All photos and video are original work.</p>
+      <p><a href="index.html">Back to home</a></p>
+    </div>
+  </footer>
+
+  <div class="video-modal" id="video-modal" data-open="false" role="dialog" aria-modal="true" aria-label="Video player">
+    <div class="video-modal-frame">
+      <button class="video-modal-close" aria-label="Close video">✕</button>
+      <div class="ratio"></div>
+      <a class="video-modal-watch" href="#" target="_blank" rel="noopener" hidden>Having trouble playing? Watch on YouTube ↗</a>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

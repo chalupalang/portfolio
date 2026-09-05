@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photography — Kaylah Lang</title>
+  <meta name="description" content="Full photography gallery." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="Primary">
+      <a class="nav-mark" href="index.html">Kaylah Lang</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" data-open="false">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html" aria-current="page">Photography</a></li>
+        <li><a href="video.html">Video</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <div class="page-header wrap">
+      <p class="eyebrow">Photography</p>
+      <h1 class="page-title">Full gallery</h1>
+      <p class="page-lede">Every photo, in one place. Filter by category, or click any image to view it full size.</p>
+    </div>
+
+    <section class="section" style="padding-top: 0;">
+      <div class="wrap">
+        <div class="filters" id="filter-bar" role="group" aria-label="Filter photos by category"></div>
+        <div class="grid" id="gallery-grid" aria-label="All photos"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <p>&copy; <span id="year"></span> Kaylah Lang. All photos and video are original work.</p>
+      <p><a href="index.html">Back to home</a></p>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" data-open="false" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <div class="lightbox-frame">
+      <button class="lightbox-prev" aria-label="Previous photo">←</button>
+      <img src="" alt="" />
+      <button class="lightbox-next" aria-label="Next photo">→</button>
+      <button class="lightbox-close" aria-label="Close photo viewer">✕</button>
+      <p class="lightbox-caption"></p>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
